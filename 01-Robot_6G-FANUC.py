@@ -1,4 +1,4 @@
-import Lib.robcinematics.cinematica_directa as rc
+import Lib.robcinematics.algDH as rc
 import pandas as pd
 
 tabla_resultados = []
