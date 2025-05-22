@@ -43,3 +43,6 @@ sp.pprint(d_numerica)
 m_h = Robot2G.L_E7(m_Uij,m_Uijk,m_Jpi)
 
 sp.pprint(m_h)
+
+H = Robot2G.L_E8(m_h)
+sp.pprint(H)

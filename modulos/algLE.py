@@ -139,3 +139,21 @@ class AlgoritmoLE():
                     hikm.append(suma)
 
         return hikm
+
+    def L_E8(self, hikm):
+    # L-E 8: obtiene la matriz columna de fuerzas de Coriolis y centrípeta H = [hi]T
+
+        d1 = '\u1d48'
+        self.jds = sp.symbols(f'J{d1}1:{self.gl+1}')
+        H = []
+
+        for i in range(self.gl):
+            suma = 0
+            for k in range(self.gl):
+                for m in range(self.gl):
+                    idx = i * self.gl**2 + k * self.gl + m
+                    hikm_val = hikm[idx]
+                    suma += hikm_val * self.jds[k] * self.jds[m]
+            H.append(sp.simplify(suma))
+
+        return sp.Matrix(H)
