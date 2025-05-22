@@ -113,26 +113,29 @@ class AlgoritmoLE():
         return m_d
 
     def L_E7(self, m_Uij, m_Uijk, m_Jpi):
-    # L-E 7: obtiene los términos hikm
+    # L-E 7: obtiene los términos hikm definidos por una sumatoria desde j=max(i, k, m)
 
-        m_h = {}
+        hikm = []
 
         for i in range(self.gl):
             for k in range(self.gl):
                 for m in range(self.gl):
                     suma = 0
-                    for j in range(self.gl):
-                        idx1 = j * self.gl + k  # indexación de Ujkm
-                        idx2 = j * self.gl + i  # indexación de Uji
-
-                        Ujkm = m_Uijk[idx1 + m]  # doble derivada
-                        Uji  = m_Uij[idx2]       # simple derivada
-
-                        Jj = m_Jpi[j]            # pseudoinercia del cuerpo j
+                    max_j = max(i, k, m)
+                    for j in range(max_j, self.gl):
+                        # Índices para acceder a U_{jkm} y U_{ji}
+                        idx_jkm = j * self.gl**2 + k * self.gl + m
+                        idx_ji = j * self.gl + i
+                        
+                        Ujkm = m_Uijk[idx_jkm]
+                        Uji = m_Uij[idx_ji]
+                        Jj = m_Jpi[j]
 
                         traza = (Ujkm * Jj * Uji.T).trace()
                         suma += traza
 
-                    m_h[(i, k, m)] = sp.simplify(suma)
+                    # Guarda h_{ikm} en un diccionario con tupla como clave
+                    suma = sp.simplify(suma)
+                    hikm.append(suma)
 
-        return m_h
+        return hikm

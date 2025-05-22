@@ -41,3 +41,5 @@ sp.pprint(d_numerica)
 # ---------------- Sustitución de valores para la matriz D del paso 6 (fin) -------------------
 
 m_h = Robot2G.L_E7(m_Uij,m_Uijk,m_Jpi)
+
+sp.pprint(m_h)
