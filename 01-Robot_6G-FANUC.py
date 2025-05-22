@@ -1,4 +1,4 @@
-import Lib.robcinematics.algDH as rc
+import modulos.algDH as rc
 import pandas as pd
 
 tabla_resultados = []
