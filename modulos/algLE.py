@@ -20,13 +20,14 @@ class AlgoritmoLE():
 
         derv = '\u1d48'
 
+        g = sp.symbols(f'g')
         self.ms = sp.symbols(f'm1:{self.gl+1}') 
         self.ls = sp.symbols(f'l1:{self.gl+1}') 
         self.js = sp.symbols(f'j1:{self.gl+1}') 
         self.jds = sp.symbols(f'j{derv}1:{self.gl+1}')
         self.jdds = sp.symbols(f'j{derv}{derv}1:{self.gl+1}')
 
-        return self.ms, self.ls, self.js, self.jds, self.jdds
+        return g, self.ms, self.ls, self.js, self.jds, self.jdds
 
     def matrices_homogeneas(self, tabla_DH):
 
@@ -85,7 +86,7 @@ class AlgoritmoLE():
         m_Jpi = []
 
         for i in range(self.gl):
-            x, y, z = tabla[i]
+            x, y, z, trash = tabla[i]
 
             m_aux = sp.Matrix([[x**2, x*y, x*z, x],
                                [x*y, y**2, y*z, y],
@@ -162,3 +163,23 @@ class AlgoritmoLE():
             H.append(sp.simplify(suma))
 
         return sp.Matrix(H)
+    
+    def L_E9(self, v_g, m_Uij, v_r):
+
+        C = []
+
+        for i in range(self.gl):
+            suma = 0
+            for j in range(self.gl):
+
+                idx = j * self.gl + i  # índice de Uij
+                Uij = m_Uij[idx]
+
+                rj = sp.Matrix(v_r[j])
+
+                val =  self.ms[j] * v_g * Uij * rj
+                suma += val[0]
+
+            C.append(sp.simplify(suma))
+
+        return sp.Matrix(C)
