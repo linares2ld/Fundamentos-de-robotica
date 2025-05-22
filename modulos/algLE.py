@@ -7,17 +7,26 @@ class AlgoritmoLE():
 
         self.gl = grados_libertad
 
-        self.m_homogeneas = []
-
-        #self.tabladh = []
+        self.ms = []
+        self.ls = []
         self.js = []
-        self.matrizT = sp.eye(4)
+        self.jds = []
+        self.jdds = []
+
+        self.m_homogeneas = []        
       
     def definir_simbolos(self): 
-    # Crea una lista con la cantidad de Js (variable simbolica) indicadas
+    # Define todos los simbolos necesarios para el algoritmo
 
-        self.js = sp.symbols(f'J1:{self.gl+1}') 
-        return self.js
+        derv = '\u1d48'
+
+        self.ms = sp.symbols(f'm1:{self.gl+1}') 
+        self.ls = sp.symbols(f'l1:{self.gl+1}') 
+        self.js = sp.symbols(f'j1:{self.gl+1}') 
+        self.jds = sp.symbols(f'j{derv}1:{self.gl+1}')
+        self.jdds = sp.symbols(f'j{derv}{derv}1:{self.gl+1}')
+
+        return self.ms, self.ls, self.js, self.jds, self.jdds
 
     def matrices_homogeneas(self, tabla_DH):
 
@@ -75,8 +84,6 @@ class AlgoritmoLE():
 
         m_Jpi = []
 
-        ms = sp.symbols(f'm1:{self.gl+1}') 
-
         for i in range(self.gl):
             x, y, z = tabla[i]
 
@@ -85,7 +92,7 @@ class AlgoritmoLE():
                                [x*z, y*z, z**2, z],
                                [x,   y,   z,   1]])
             
-            m_Jpi_i = m_aux.applyfunc(lambda expr: sp.integrate(expr, ms[i]))
+            m_Jpi_i = m_aux.applyfunc(lambda expr: sp.integrate(expr, self.ms[i]))
 
             m_Jpi.append(m_Jpi_i)
         
@@ -94,7 +101,7 @@ class AlgoritmoLE():
     def L_E6(self, m_Uij, m_Jpi):
     # L-E 6: obtiene la matriz de inercias D = [Dij]
 
-        m_d = sp.zeros(self.gl, self.gl)
+        D = sp.zeros(self.gl, self.gl)
 
         for i in range(self.gl):
             for j in range(self.gl):
@@ -108,9 +115,9 @@ class AlgoritmoLE():
 
                     traza = (Ukj * Jpk * Uki.T).trace()
                     suma += traza
-                m_d[i, j] = sp.simplify(suma)
+                D[i, j] = sp.simplify(suma)
 
-        return m_d
+        return D
 
     def L_E7(self, m_Uij, m_Uijk, m_Jpi):
     # L-E 7: obtiene los términos hikm definidos por una sumatoria desde j=max(i, k, m)
@@ -143,8 +150,6 @@ class AlgoritmoLE():
     def L_E8(self, hikm):
     # L-E 8: obtiene la matriz columna de fuerzas de Coriolis y centrípeta H = [hi]T
 
-        d1 = '\u1d48'
-        self.jds = sp.symbols(f'J{d1}1:{self.gl+1}')
         H = []
 
         for i in range(self.gl):
