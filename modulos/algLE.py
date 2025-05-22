@@ -183,3 +183,10 @@ class AlgoritmoLE():
             C.append(sp.simplify(suma))
 
         return sp.Matrix(C)
+    
+    def L_E10(self, D, H, C):
+
+        self.jdds = sp.Matrix(self.jdds)
+        tau = D * self.jdds + H + C
+        
+        return tau

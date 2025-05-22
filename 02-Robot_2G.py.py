@@ -83,3 +83,6 @@ print("\nMatriz H con valores sustituidos:\n")
 sp.pprint(C_numerica)
 
 # ---------------- Impresión de la matriz C (fin) -------------------
+
+# L-E 10.
+tau = Robot2G.L_E10(D,H,C)
