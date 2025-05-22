@@ -34,55 +34,33 @@ m_Jpi = Robot2G.L_E5(v_r)
 # L-E 6.
 D = Robot2G.L_E6(m_Uij,m_Jpi)
 
-# ---------------- Impresión de la matriz D (inicio) ----------------
-D_numerica = D.subs(sustituciones)
-
-# Mostrar matriz resultante
-
-print("\n---------------- Impresión de la matriz D ----------------\n")
-print("\nMatriz simbólica D:\n")
-sp.pprint(D)
-
-print("\nMatriz D con valores sustituidos:\n")
-sp.pprint(D_numerica)
-
-# ---------------- Impresión de la matriz D (fin) -------------------
-
 # L-E 7.
 m_h = Robot2G.L_E7(m_Uij,m_Uijk,m_Jpi)
 
 # L-E 8.
 H = Robot2G.L_E8(m_h)
 
-# ---------------- Impresión de la matriz H (inicio) ----------------
-H_numerica = H.subs(sustituciones)
-
-# Mostrar matriz resultante
-print("\n---------------- Impresión de la matriz H ----------------\n")
-print("\nMatriz simbólica H:\n")
-sp.pprint(H)
-
-print("\nMatriz H con valores sustituidos:\n")
-sp.pprint(H_numerica)
-
-# ---------------- Impresión de la matriz H (fin) -------------------
-
 # L-E 9.
 v_g = sp.Matrix([[0,0,-g,0]])
 C = Robot2G.L_E9(v_g,m_Uij,v_r)
 
-# ---------------- Impresión de la matriz C (inicio) ----------------
-C_numerica = C.subs(sustituciones)
-
-# Mostrar matriz resultante
-print("\n---------------- Impresión de la matriz C ----------------\n")
-print("\nMatriz simbólica H:\n")
-sp.pprint(C)
-
-print("\nMatriz H con valores sustituidos:\n")
-sp.pprint(C_numerica)
-
-# ---------------- Impresión de la matriz C (fin) -------------------
-
 # L-E 10.
 tau = Robot2G.L_E10(D,H,C)
+
+# ---------------- Impresión de la matriz D (inicio) ----------------
+D_numerica = D.subs(sustituciones)
+print("\nMatriz D con valores sustituidos:\n")
+sp.pprint(D_numerica)
+# ---------------- Impresión de la matriz D (fin) -------------------
+
+# ---------------- Impresión de la matriz H (inicio) ----------------
+H_numerica = H.subs(sustituciones)
+print("\nMatriz H con valores sustituidos:\n")
+sp.pprint(H_numerica)
+# ---------------- Impresión de la matriz H (fin) -------------------
+
+# ---------------- Impresión de la matriz C (inicio) ----------------
+C_numerica = C.subs(sustituciones)
+print("\nMatriz C con valores sustituidos:\n")
+sp.pprint(C_numerica)
+# ---------------- Impresión de la matriz C (fin) -------------------
